@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: contentpulse_raw
+    schema: raw
+    description: "Original ContentPulse CSV data loaded into PostgreSQL."
+    tables:
+      - name: imagineart_users
+      - name: imagineart_subscriptions
+      - name: imagineart_credit_transactions

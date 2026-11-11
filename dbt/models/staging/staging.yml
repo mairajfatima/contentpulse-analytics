@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: "One row per user, with standardised acquisition channels."
+    columns:
+      - name: user_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_subscriptions
+    description: "One row per subscription event."
+    columns:
+      - name: subscription_event_id
+        data_tests:
+          - unique
+          - not_null
+      - name: user_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+      - name: event_date
+        data_tests:
+          - not_null
+      - name: price_usd
+        data_tests:
+          - not_null
+
+  - name: stg_credit_transactions
+    description: "One row per credit transaction."
+    columns:
+      - name: transaction_id
+        data_tests:
+          - unique
+          - not_null
+      - name: user_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+      - name: transaction_date
+        data_tests:
+          - not_null
+      - name: cost_usd
+        data_tests:
+          - not_null

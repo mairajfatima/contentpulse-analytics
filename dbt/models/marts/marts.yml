@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: fct_revenue_events
+    description: >
+      One row per subscription upgrade or credit purchase.
+      Gross revenue before refunds; based on synthetic data.
+    columns:
+      - name: revenue_event_id
+        data_tests:
+          - unique
+          - not_null
+      - name: user_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+      - name: revenue_date
+        data_tests:
+          - not_null
+      - name: revenue_type
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['subscription_upgrade', 'credit_purchase']
+      - name: revenue_usd
+        data_tests:
+          - not_null
+      - name: acquisition_channel
+        data_tests:
+          - not_null
+
+  - name: mart_daily_revenue
+    description: >
+      One row per revenue date and acquisition channel.
+      Summarises subscription upgrade and credit-purchase revenue,
+      excluding refunds.
+    columns:
+      - name: revenue_date
+        data_tests:
+          - not_null
+      - name: acquisition_channel
+        data_tests:
+          - not_null
+      - name: gross_revenue_usd
+        data_tests:
+          - not_null
