@@ -19,6 +19,7 @@ ContentPulse simulates the growth, product, monetization, and retention analytic
 - [Repository Structure](#repository-structure)
 - [Key Insight — How the Pages Connect](#key-insight--how-the-pages-connect)
 - [Setup Instructions](#setup-instructions)
+- [dbt Revenue Analytics Extension](#dbt-revenue-analytics-extension)
 
 ---
 
@@ -31,7 +32,26 @@ Most portfolio BI projects start with a Kaggle CSV and end with a single chart. 
 Every page is interactive (filterable by date, channel, feature, plan tier, and more), and — critically — the pages are designed to connect to each other. A spike in failed generations on the Product page shows up again in refund rates on the Monetization page, and again in negative sentiment themes on the Retention page. That cross-page traceability is the actual point of BI: not just building charts, but building a system that lets you trace a business problem from symptom to root cause.
 
 ---
+## dbt Revenue Analytics Extension
 
+To make revenue reporting reusable and easier to validate, ContentPulse
+includes a dbt Core extension built on PostgreSQL. It centralises the
+logic for combining subscription upgrades and credit purchases, using
+consistent revenue dates and user acquisition channels.
+
+The extension includes **five SQL models**: three staging views, a
+revenue-event fact table, and a daily revenue mart. **28 automated data
+tests** check identifiers, relationships, required values, reporting
+grain, and reconciliation to source data. Generated dbt documentation
+explains model definitions and dependencies.
+
+The verified synthetic dataset produces **4,133 revenue events** and
+**$116,806.71 in gross revenue before refunds**. The extension runs
+independently of the original Metabase dashboard.
+
+**[Explore the dbt models, tests, architecture, and setup →](dbt/README.md)**
+
+---
 ## Tech Stack
 
 | Layer | Tool |
@@ -41,6 +61,7 @@ Every page is interactive (filterable by date, channel, feature, plan tier, and 
 | Database GUI | pgAdmin 4 |
 | BI / visualization | Metabase (self-hosted) |
 | Query language | SQL (PostgreSQL dialect) |
+| Transformation, testing & documentation | dbt Core + dbt-postgres |
 
 ---
 
